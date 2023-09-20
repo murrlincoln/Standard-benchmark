@@ -5,7 +5,7 @@ import openai
 import re
 
 # Set your OpenAI API key
-openai.api_key = "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"
+openai.api_key = "YOUR-SECRET_KEY"
 
 # Standardize the raw JSON
 def generate_standard_json_from_raw_input(input_path, output_path):
@@ -72,10 +72,10 @@ def create_and_complete_problem_file(directory, problem):
     function_signature = problem['function_signature']
     prompt = problem['prompt']
     file_path = os.path.join(directory, f"{function_name}.py")
-    with open(file_path, 'w') as f:
-        f.write(f"# {function_name}\n\n")
-        f.write(f"{function_signature}\n")
-        f.write("# TODO: Complete this function\n")
+    #with open(file_path, 'w') as f:
+        #f.write(f"# {function_name}\n\n")
+        #f.write(f"{function_signature}\n")
+        #f.write("# TODO: Complete this function\n")
     full_prompt = f"{prompt}\n\n{function_signature}  # TODO: Complete this function. Include nothing in your response except for the code itself, as it will be entered straight into a python file."
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo-16k",  
@@ -87,6 +87,40 @@ def create_and_complete_problem_file(directory, problem):
     completed_function = response['choices'][0]['message']['content'].strip()
     with open(file_path, 'a') as f:
         f.write(completed_function)
+
+
+# Import necessary modules
+
+def compile_problems_to_main(directory, output_file="main.py"):
+    """
+    Compiles all Python files in a given directory into a single main.py file.
+    
+    Parameters:
+        directory (str): The directory containing the Python files to compile.
+        output_file (str): The name of the output file. Defaults to "main.py".
+        
+    Returns:
+        None
+    """
+    # Initialize an empty string to hold the content of all Python files
+    combined_content = ""
+    
+    # Loop through all files in the directory
+    for filename in os.listdir(directory):
+        if filename.endswith(".py"):
+            file_path = os.path.join(directory, filename)
+            with open(file_path, 'r') as f:
+                content = f.read()
+                combined_content += f"# Content from {filename}\n"
+                combined_content += content + "\n\n"
+    
+    # Write the combined content to the output file
+    with open(output_file, 'w') as f:
+        f.write(combined_content)
+
+# Example usage:
+# compile_problems_to_main("problems")
+
 
 # Run unittests
 def run_tests():
@@ -100,19 +134,7 @@ def run_tests():
         print("No test.py found in the current directory.")
 
 if __name__ == "__main__":
-    # Step 1: Standardize the raw JSON and unorganized tests
-    INPUT_RAW_JSON_PATH = "raw_problems.json"
-    OUTPUT_STANDARD_JSON_PATH = "problems.json"
-    INPUT_UNORGANIZED_TESTS_FILE = "unorganized_tests.py"
-    OUTPUT_TEST_FILE = "test.py"
-    # generate_standard_json_from_raw_input(INPUT_RAW_JSON_PATH, OUTPUT_STANDARD_JSON_PATH)
-    #generate_unittest_from_unorganized_tests(INPUT_UNORGANIZED_TESTS_FILE, OUTPUT_TEST_FILE)
 
-    # Step 2: Generate Python functions
-    problems = json.load(open(OUTPUT_STANDARD_JSON_PATH, 'r'))
-    DIRECTORY_PATH = "problems"
-    #for problem in problems:
-    #    create_and_complete_problem_file(DIRECTORY_PATH, problem)
 
     # Step 3: Run the tests
     run_tests()
