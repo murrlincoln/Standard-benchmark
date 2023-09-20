@@ -5,7 +5,7 @@ import openai
 import re
 
 # Set your OpenAI API key
-openai.api_key = "YOUR-SECRET_KEY"
+openai.api_key = "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"
 
 # Standardize the raw JSON
 def generate_standard_json_from_raw_input(input_path, output_path):
@@ -134,6 +134,21 @@ def run_tests():
         print("No test.py found in the current directory.")
 
 if __name__ == "__main__":
+    # Step 1: Standardize the raw JSON and unorganized tests
+    INPUT_RAW_JSON_PATH = "raw_problems.json"
+    OUTPUT_STANDARD_JSON_PATH = "problems.json"
+    INPUT_UNORGANIZED_TESTS_FILE = "unorganized_tests.py"
+    OUTPUT_TEST_FILE = "test.py"
+    generate_standard_json_from_raw_input(INPUT_RAW_JSON_PATH, OUTPUT_STANDARD_JSON_PATH)
+    generate_unittest_from_unorganized_tests(INPUT_UNORGANIZED_TESTS_FILE, OUTPUT_TEST_FILE)
+
+    # Step 2: Generate Python functions
+    problems = json.load(open(OUTPUT_STANDARD_JSON_PATH, 'r'))
+    DIRECTORY_PATH = "problems"
+    for problem in problems:
+        create_and_complete_problem_file(DIRECTORY_PATH, problem)
+
+    compile_problems_to_main("problems")
 
 
     # Step 3: Run the tests
