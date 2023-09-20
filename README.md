@@ -51,7 +51,7 @@ Run the unified script to perform all operations:
 ```bash
 python main_script.py
 ```
-##Output
+## Output
 After running the script, you'll get:
 
 A standardized JSON file (standard_problems.json) containing the coding problems.
@@ -66,6 +66,8 @@ Function Generation: The script then reads the standardized JSON file to generat
 Testing: Finally, the script runs the generated unittest-compatible tests to validate the generated functions.
 
 ## Limitations and Considerations
-The OpenAI GPT-3.5 Turbo 16k model has a token limit (e.g., 4096 tokens as of my last update). Be cautious of this when working with large JSON files or extensive tests.
+The OpenAI GPT-3.5 Turbo 16k model has a token limit. Be cautious of this when working with large JSON files or extensive tests.
 
 Make sure your API key is correctly set up and has sufficient API call limits for your requirements.
+
+Given the amount of moving parts in the migrate and test one shot, it doesn't work perfectly every time. Go into the code and ensure that GPT-3.5 didn't add anything unnecessary to the functions, or responds in a way that would not align with pure code.
