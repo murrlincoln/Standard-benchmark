@@ -58,14 +58,14 @@ A standardized JSON file (standard_problems.json) containing the coding problems
 Python functions generated in the problems folder based on the standardized JSON.
 A unittest-compatible test file (test.py) based on your unorganized tests.
 Test results from running the unittests.
-##How it Works
+## How it Works
 Standardization: The script first takes a raw JSON file and an unorganized Python test file. It standardizes them using OpenAI's GPT-3.5 Turbo 16k model. The standardized JSON and test files are saved as standard_problems.json and test.py, respectively.
 
 Function Generation: The script then reads the standardized JSON file to generate Python functions. These functions are saved in individual Python files within the problems directory.
 
 Testing: Finally, the script runs the generated unittest-compatible tests to validate the generated functions.
 
-##Limitations and Considerations
+## Limitations and Considerations
 The OpenAI GPT-3.5 Turbo 16k model has a token limit (e.g., 4096 tokens as of my last update). Be cautious of this when working with large JSON files or extensive tests.
 
 Make sure your API key is correctly set up and has sufficient API call limits for your requirements.
